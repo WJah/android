@@ -37,8 +37,11 @@ import com.android.tools.idea.model.ManifestInfo.ActivityAttributes;
 import com.android.tools.idea.rendering.multi.CompatibilityRenderTarget;
 import com.android.tools.idea.rendering.multi.RenderPreviewMode;
 import com.google.common.collect.Maps;
+import com.intel.moe.tool.RGenerator;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.module.Module;
+import com.intellij.openapi.project.Project;
+import com.intellij.openapi.project.impl.ProjectImpl;
 import com.intellij.openapi.util.Comparing;
 import com.intellij.openapi.util.Computable;
 import com.intellij.openapi.vfs.VirtualFile;
@@ -519,6 +522,10 @@ public class RenderTask implements IImageFactory {
               }
               retries++;
             }
+            Project project = module.getProject();
+            String projectPath = project.getBasePath();
+            RGenerator rGenerator = new RGenerator(params,myCredential,projectPath);
+            rGenerator.getViewInfo(session);
 
             return new RenderResult(RenderTask.this, session, myPsiFile, myLogger);
           }
